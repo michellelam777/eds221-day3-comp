@@ -1,0 +1,79 @@
+---
+title: "EDS 221 Day 3 Comp"
+author: "Michelle Lam"
+date: "2022-08-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+library(tidyverse)
+```
+
+### `if` statements
+
+```{r}
+burrito <- 4
+
+if (burrito > 2) {
+  print("I love burritos!")
+}
+```
+
+```{r}
+my_ships <- c("Millenium Falcom", "X-wing", "Tie-Fighter", "Death Star")
+
+# Check to see which elements in the my_ships vector contain an "r"
+# Capitalization does matter when specifying the pattern
+str_detect(my_ships, pattern = "r")
+str_detect(my_ships, pattern = "x")
+
+phrase <- "I love burritos"
+
+if (str_detect(phrase, "love")) {
+  print("I am a burrito fan.")
+}
+```
+
+
+### `if-else` statement
+
+```{r}
+pika <- 50
+
+if (pika > 60) {
+  print("mega pika")
+} else {
+  print("normal pika")
+}
+```
+
+```{r}
+marmot <- 2.8
+
+if(marmot < 0.5) {
+  print("this is a small marmot")
+} else if (marmot >= 0.5 & marmot < 3) {
+  print("this is a medium marmot")
+} else {
+  print("this is a large marmot")
+}
+```
+
+
+```{r}
+# |> and %>% do the same thing. The |> is the native pipe function that can be used outside the tidyverse package.
+
+tatooine_characters <- starwars |> 
+  filter(homeworld == "Tatooine")
+
+# Use %in% operator to check for multiple positive matches. Shorthand to for OR operator (|)
+tatooine_endor_naboo <- starwars |> 
+  filter(homeworld %in% c("Tatooine", "Naboo", "Endor"))
+
+# In words: Does the value in the homeworld variable for that row exist IN that vector c("Tatooine", "Naboo", "Endor")
+```
+
+
+

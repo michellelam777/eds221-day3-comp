@@ -413,6 +413,67 @@ if(marmot &lt; 0.5) {
   print(&quot;this is a large marmot&quot;)
 }</code></pre>
 <pre><code>## [1] &quot;this is a medium marmot&quot;</code></pre>
+<div id="group_by-summarize" class="section level4">
+<h4><code>group_by() %&gt;% summarize()</code></h4>
+<pre class="r"><code>penguins |&gt; 
+  group_by(species, island) |&gt; 
+  summarize(mean_bill_length = mean(bill_length_mm, na.rm = TRUE), 
+            sd_bill_length =sd(bill_length_mm, na.rm = TRUE),
+            n = n())</code></pre>
+<pre><code>## # A tibble: 5 × 5
+## # Groups:   species [3]
+##   species   island    mean_bill_length sd_bill_length     n
+##   &lt;fct&gt;     &lt;fct&gt;                &lt;dbl&gt;          &lt;dbl&gt; &lt;int&gt;
+## 1 Adelie    Biscoe                39.0           2.48    44
+## 2 Adelie    Dream                 38.5           2.47    56
+## 3 Adelie    Torgersen             39.0           3.03    52
+## 4 Chinstrap Dream                 48.8           3.34    68
+## 5 Gentoo    Biscoe                47.5           3.08   124</code></pre>
+<pre class="r"><code># Start by looking at penguins data, find the groups by species and the subgroup of each island, find the mean of each group and the standard deviation 
+# n = how many penguins observed, does not remove the na values from the count
+
+# Find the mean and standard deviation of character height in `starwars` grouped by homeworld.
+
+starwars |&gt; 
+  group_by(homeworld) |&gt; 
+  summarize(mean_character_height = mean(height, na.rm = TRUE),
+            sd_character_height = sd(height, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 49 × 3
+##    homeworld      mean_character_height sd_character_height
+##    &lt;chr&gt;                          &lt;dbl&gt;               &lt;dbl&gt;
+##  1 Alderaan                        176.               22.9 
+##  2 Aleen Minor                      79                NA   
+##  3 Bespin                          175                NA   
+##  4 Bestine IV                      180                NA   
+##  5 Cato Neimoidia                  191                NA   
+##  6 Cerea                           198                NA   
+##  7 Champala                        196                NA   
+##  8 Chandrila                       150                NA   
+##  9 Concord Dawn                    183                NA   
+## 10 Corellia                        175                 7.07
+## # … with 39 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+<pre class="r"><code># Find the maximum and minimum flipper length, and sample size for each species of penguins 
+penguins |&gt; 
+  group_by(species, sex) |&gt; 
+  summarize(max_flipper_length = max(flipper_length_mm, na.rm = TRUE),
+            min_flipper_length = min(flipper_length_mm, na.rm = TRUE),
+            n = n())</code></pre>
+<pre><code>## # A tibble: 8 × 5
+## # Groups:   species [3]
+##   species   sex    max_flipper_length min_flipper_length     n
+##   &lt;fct&gt;     &lt;fct&gt;               &lt;int&gt;              &lt;int&gt; &lt;int&gt;
+## 1 Adelie    female                202                172    73
+## 2 Adelie    male                  210                178    73
+## 3 Adelie    &lt;NA&gt;                  193                179     6
+## 4 Chinstrap female                202                178    34
+## 5 Chinstrap male                  212                187    34
+## 6 Gentoo    female                222                203    58
+## 7 Gentoo    male                  231                208    61
+## 8 Gentoo    &lt;NA&gt;                  217                214     5</code></pre>
+</div>
+<div id="example-of-in-operator" class="section level4">
+<h4>Example of %in% operator</h4>
 <pre class="r"><code># |&gt; and %&gt;% do the same thing. The |&gt; is the native pipe function that can be used outside the tidyverse package.
 
 tatooine_characters &lt;- starwars |&gt; 
@@ -422,7 +483,15 @@ tatooine_characters &lt;- starwars |&gt;
 tatooine_endor_naboo &lt;- starwars |&gt; 
   filter(homeworld %in% c(&quot;Tatooine&quot;, &quot;Naboo&quot;, &quot;Endor&quot;))
 
-# In words: Does the value in the homeworld variable for that row exist IN that vector c(&quot;Tatooine&quot;, &quot;Naboo&quot;, &quot;Endor&quot;)</code></pre>
+# In words: Does the value in the homeworld variable for that row exist IN that vector c(&quot;Tatooine&quot;, &quot;Naboo&quot;, &quot;Endor&quot;)
+
+unique(starwars$eye_color)</code></pre>
+<pre><code>##  [1] &quot;blue&quot;          &quot;yellow&quot;        &quot;red&quot;           &quot;brown&quot;        
+##  [5] &quot;blue-gray&quot;     &quot;black&quot;         &quot;orange&quot;        &quot;hazel&quot;        
+##  [9] &quot;pink&quot;          &quot;unknown&quot;       &quot;red, blue&quot;     &quot;gold&quot;         
+## [13] &quot;green, yellow&quot; &quot;white&quot;         &quot;dark&quot;</code></pre>
+<pre class="r"><code># returns the unique values in the eye_color column of the star wars data set. If values are green and green-gray it will return 2 unique values.</code></pre>
+</div>
 </div>
 
 

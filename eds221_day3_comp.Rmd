@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 library(tidyverse)
+library(palmerpenguins)
 ```
 
 ### `if` statements
@@ -61,6 +62,35 @@ if(marmot < 0.5) {
 }
 ```
 
+#### `group_by() %>% summarize()`
+
+```{r}
+penguins |> 
+  group_by(species, island) |> 
+  summarize(mean_bill_length = mean(bill_length_mm, na.rm = TRUE), 
+            sd_bill_length =sd(bill_length_mm, na.rm = TRUE),
+            n = n())
+
+# Start by looking at penguins data, find the groups by species and the subgroup of each island, find the mean of each group and the standard deviation 
+# n = how many penguins observed, does not remove the na values from the count
+
+# Find the mean and standard deviation of character height in `starwars` grouped by homeworld.
+
+starwars |> 
+  group_by(homeworld) |> 
+  summarize(mean_character_height = mean(height, na.rm = TRUE),
+            sd_character_height = sd(height, na.rm = TRUE))
+
+# Find the maximum and minimum flipper length, and sample size for each species of penguins 
+penguins |> 
+  group_by(species, sex) |> 
+  summarize(max_flipper_length = max(flipper_length_mm, na.rm = TRUE),
+            min_flipper_length = min(flipper_length_mm, na.rm = TRUE),
+            n = n())
+```
+
+
+#### Example of %in% operator
 
 ```{r}
 # |> and %>% do the same thing. The |> is the native pipe function that can be used outside the tidyverse package.
@@ -73,6 +103,9 @@ tatooine_endor_naboo <- starwars |>
   filter(homeworld %in% c("Tatooine", "Naboo", "Endor"))
 
 # In words: Does the value in the homeworld variable for that row exist IN that vector c("Tatooine", "Naboo", "Endor")
+
+unique(starwars$eye_color)
+# returns the unique values in the eye_color column of the star wars data set. If values are green and green-gray it will return 2 unique values.
 ```
 
 

@@ -89,7 +89,6 @@ penguins |>
             n = n())
 ```
 
-
 #### Example of %in% operator
 
 ```{r}

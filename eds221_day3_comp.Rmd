@@ -87,6 +87,72 @@ penguins |>
   summarize(max_flipper_length = max(flipper_length_mm, na.rm = TRUE),
             min_flipper_length = min(flipper_length_mm, na.rm = TRUE),
             n = n())
+
+# Use `group_by() %>% summarize()` with `across()` to filter for columns containing numeric values
+penguins |> 
+  group_by(species) |> 
+  summarize(across(where(is.numeric), mean, na.rm = TRUE))
+```
+
+#### For Loops
+```{r}
+# Create vector where the next value in the vector is added to it
+tree_height <- c(1, 2, 6, 10, 14, 20)
+
+for (i in seq_along(tree_height)) {
+  val = tree_height[i] + tree_height[i + 1]
+  print(val)
+}
+```
+
+### For loops with conditional statement
+```{r}
+# Create empty vector to populate calculated animal_age of each iteration into 
+animal_ages <- vector(mode = "numeric", length = length(species))
+
+species <- c("dog", "elephant", "goat", "dog", "dog", "elephant")
+
+age_human <- c(3, 8, 4, 6, 12, 18)
+
+for (i in seq_along(species)) {
+  if (species[i] == "dog") {
+    animal_age <- age_human[i] * 7
+  } else if (species[i] == "elephant") {
+    animal_age <- age_human[i] * 0.88
+  } else if (species[i] == "goat") {
+    animal_age <- age_human[i] * 4.7
+  }
+  animal_ages[i] <- animal_age
+}
+```
+
+### For loops across data frames
+```{r}
+mean_mtcars <- vector(mode = "numeric", length = ncol(mtcars))
+
+for (i in seq_along(mtcars)) {
+  mean_val <- mean(mtcars[[i]], na.rm = TRUE)
+  mean_mtcars[i] <- mean_val
+}
+
+mean_mtcars
+```
+
+### Functional programming examples
+
+Adding syntactic sugar (apply, across, map_df)
+
+```{r}
+# find the mean across all columns of mtcars using apply
+apply(X = mtcars, MARGIN = 2, FUN = mean)
+```
+
+```{r}
+# find the mean across all columns of mtcars using map
+map(.x = mtcars, .f = mean)
+
+# map_df returns the data as a data frame
+map_df(.x = mtcars, .f = mean)
 ```
 
 #### Example of %in% operator
